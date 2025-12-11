@@ -1,33 +1,45 @@
 package com.example.QuattroTech.shop.controller.web;
 
+import com.example.QuattroTech.shop.model.ShopItem;
+import com.example.QuattroTech.shop.service.ShopItemService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.Mockito;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.view.InternalResourceView;
 
+import java.math.BigDecimal;
+import java.util.List;
+
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
 class ShopItemWebControllerTest {
 
-    @Autowired
-    private WebApplicationContext context;
-
     private MockMvc mockMvc;
+    private ShopItemService shopItemService;
 
-    private MockMvc mockMvc() {
-        if (mockMvc == null) {
-            mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
-        }
-        return mockMvc;
+    @BeforeEach
+    void setUp() {
+        shopItemService = Mockito.mock(ShopItemService.class);
+        ShopItemWebController controller = new ShopItemWebController(shopItemService);
+
+        mockMvc = MockMvcBuilders.standaloneSetup(controller)
+
+                .setViewResolvers((viewName, locale) ->
+                        new InternalResourceView("/WEB-INF/" + viewName + ".jsp"))
+                .build();
     }
 
     @Test
     void showItems_returnsItemsView() throws Exception {
-        mockMvc().perform(get("/shop/items"))
+        ShopItem item = new ShopItem("id1", "item1",
+                new BigDecimal("10.00"), 5);
+        given(shopItemService.getAllItems()).willReturn(List.of(item));
+
+        mockMvc.perform(get("/shop/items"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("items"))
                 .andExpect(model().attributeExists("items"));

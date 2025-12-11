@@ -1,34 +1,40 @@
 package com.example.QuattroTech.shop.controller.rest;
 
+import com.example.QuattroTech.shop.model.ShopItem;
+import com.example.QuattroTech.shop.service.ShopItemService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.Mockito;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
+import java.math.BigDecimal;
+import java.util.List;
+
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
 class ShopItemRestControllerTest {
 
-    @Autowired
-    private WebApplicationContext context;
-
     private MockMvc mockMvc;
+    private ShopItemService shopItemService;
 
-    private MockMvc mockMvc() {
-        if (mockMvc == null) {
-            mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
-        }
-        return mockMvc;
+    @BeforeEach
+    void setUp() {
+        shopItemService = Mockito.mock(ShopItemService.class);
+        ShopItemRestController controller = new ShopItemRestController(shopItemService);
+        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 
     @Test
     void getAllItems_returnsOk() throws Exception {
-        mockMvc().perform(get("/api/items"))
+        ShopItem item = new ShopItem("id1", "item1",
+                new BigDecimal("10.00"), 5);
+        given(shopItemService.getAllItems()).willReturn(List.of(item));
+
+        mockMvc.perform(get("/api/items"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
