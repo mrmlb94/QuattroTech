@@ -54,10 +54,35 @@
 			<optional>true</optional>
 		</dependency>
 
-
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-test</artifactId>
+    <scope>test</scope>
+</dependency>
+
+
+
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-test-autoconfigure</artifactId>
+    <scope>test</scope>
+</dependency>
+
+
+<!-- Selenium HtmlUnit driver for headless WebDriver tests -->
+<dependency>
+    <groupId>org.seleniumhq.selenium</groupId>
+    <artifactId>htmlunit-driver</artifactId>
+    <version>4.8.1.1</version>
+    <scope>test</scope>
+</dependency>
+
+
+<!-- Selenium support utilities (By, WebDriver, etc.) -->
+<dependency>
+    <groupId>org.seleniumhq.selenium</groupId>
+    <artifactId>selenium-support</artifactId>
     <scope>test</scope>
 </dependency>
 
@@ -81,7 +106,47 @@
 	</dependencies>
 
 <build>
+
+
+
+    <testSourceDirectory>src/test/java</testSourceDirectory>
+
+
+
+
+
+
     <plugins>
+    
+    
+    
+    
+    
+    
+    
+<plugin>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>build-helper-maven-plugin</artifactId>
+    <executions>
+        <execution>
+            <id>add-integration-test-source</id>
+            <phase>generate-test-sources</phase>
+            <goals>
+                <goal>add-test-source</goal>
+            </goals>
+            <configuration>
+                <sources>
+                    <source>src/it/java</source>
+                </sources>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+
+
+
+
+
         <plugin>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-maven-plugin</artifactId>
