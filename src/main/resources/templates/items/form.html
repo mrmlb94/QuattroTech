@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${formTitle} + ' - QuattroTech'">Form - QuattroTech</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .required-field::after {
+            content: " *";
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/items">QuattroTech Shop</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/items">All Items</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="form-container">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0" th:text="${formTitle}">Form Title</h3>
+                </div>
+                <div class="card-body">
+                    <!-- Error Alert -->
+                    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Error!</strong> <span th:text="${error}"></span>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+
+                    <!-- Form -->
+                    <form th:action="@{/items/save}" th:object="${item}" method="post">
+                        <!-- Hidden ID field for updates -->
+                        <input type="hidden" th:field="*{id}" />
+
+                        <!-- Name Field -->
+                        <div class="mb-3">
+                            <label for="name" class="form-label required-field">Name</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="name" 
+                                   th:field="*{name}"
+                                   th:classappend="${#fields.hasErrors('name')} ? 'is-invalid' : ''"
+                                   placeholder="Enter item name"
+                                   required>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" 
+                                 th:errors="*{name}">Name error</div>
+                        </div>
+
+                        <!-- Description Field -->
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" 
+                                      id="description" 
+                                      th:field="*{description}"
+                                      rows="3"
+                                      placeholder="Enter item description (optional)"></textarea>
+                        </div>
+
+                        <!-- Price Field -->
+                        <div class="mb-3">
+                            <label for="price" class="form-label required-field">Price</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" 
+                                       class="form-control" 
+                                       id="price" 
+                                       th:field="*{price}"
+                                       th:classappend="${#fields.hasErrors('price')} ? 'is-invalid' : ''"
+                                       step="0.01"
+                                       min="0"
+                                       placeholder="0.00"
+                                       required>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('price')}" 
+                                     th:errors="*{price}">Price error</div>
+                            </div>
+                            <small class="form-text text-muted">Enter a positive number</small>
+                        </div>
+
+                        <!-- Quantity Field -->
+                        <div class="mb-3">
+                            <label for="quantity" class="form-label required-field">Quantity</label>
+                            <input type="number" 
+                                   class="form-control" 
+                                   id="quantity" 
+                                   th:field="*{quantity}"
+                                   th:classappend="${#fields.hasErrors('quantity')} ? 'is-invalid' : ''"
+                                   min="0"
+                                   placeholder="0"
+                                   required>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('quantity')}" 
+                                 th:errors="*{quantity}">Quantity error</div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="d-flex justify-content-between mt-4">
+                            <a th:href="@{/items}" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary" id="btn-submit">
+                                <span th:if="${isNew}">
+                                    <i class="bi bi-plus-circle"></i> Create Item
+                                </span>
+                                <span th:unless="${isNew}">
+                                    <i class="bi bi-save"></i> Update Item
+                                </span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Field Descriptions -->
+            <div class="card mt-3 border-info">
+                <div class="card-body">
+                    <h6 class="card-title text-info">Field Requirements:</h6>
+                    <ul class="small mb-0">
+                        <li><strong>Name:</strong> Required, cannot be blank</li>
+                        <li><strong>Description:</strong> Optional</li>
+                        <li><strong>Price:</strong> Required, must be ≥ 0</li>
+                        <li><strong>Quantity:</strong> Required, must be ≥ 0</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
