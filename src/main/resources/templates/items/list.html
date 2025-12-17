@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Items - QuattroTech</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/items">QuattroTech Shop</a>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Shop Items</h2>
+            <a th:href="@{/items/new}" class="btn btn-primary" id="btn-new-item">
+                Add New Item
+            </a>
+        </div>
+
+        <!-- Success/Error Messages -->
+        <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <span th:text="${success}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span th:text="${error}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <!-- Empty State -->
+        <div th:if="${#lists.isEmpty(items)}" class="alert alert-info">
+            <p th:text="${message}">No items available</p>
+        </div>
+
+        <!-- Items Table -->
+        <table th:unless="${#lists.isEmpty(items)}" 
+               class="table table-striped table-hover" 
+               id="items-table">
+            <thead class="table-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item : ${items}">
+                    <td th:text="${item.name}">Item Name</td>
+                    <td th:text="${item.description}">Description</td>
+                    <td th:text="${'$' + #numbers.formatDecimal(item.price, 1, 2)}">$0.00</td>
+                    <td th:text="${item.quantity}">0</td>
+                    <td>
+                        <a th:href="@{/items/{id}(id=${item.id})}" 
+                           class="btn btn-sm btn-info">View</a>
+                        <a th:href="@{/items/edit/{id}(id=${item.id})}" 
+                           class="btn btn-sm btn-warning">Edit</a>
+                        <a th:href="@{/items/delete/{id}(id=${item.id})}" 
+                           class="btn btn-sm btn-danger"
+                           onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

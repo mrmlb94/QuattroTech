@@ -4,22 +4,30 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.math.BigDecimal;
 import java.util.Objects;
+import jakarta.validation.constraints.*;
 
 @Document(collection = "shop_items")
 public class ShopItem {
 
     @Id
     private String id;
-
+    
+    @NotBlank(message = "Name is required")
     private String name;
 
     private String description;
-
+    
+    
+    @NotNull(message = "Price is required")
+    @Positive(message = "Price must be positive")
     private BigDecimal price;
-
+    
+    
+    @NotNull(message = "Quantity is required")
+    @Min(value = 0, message = "Quantity cannot be negative")
     private int quantity;
 
-    protected ShopItem() {
+    public ShopItem() {
         // For MongoDB / Spring Data
     }
 

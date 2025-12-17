@@ -1,210 +1,572 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.0.0</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
-	<groupId>com.example</groupId>
-	<artifactId>QuattroTech</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>QuattroTech</name>
-	<description>Demo project for Spring Boot</description>
-	<url/>
-	<licenses>
-		<license/>
-	</licenses>
-	<developers>
-		<developer/>
-	</developers>
-	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
-	</scm>
-	<properties>
-		<java.version>17</java.version>
-	</properties>
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-mongodb</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webmvc</artifactId>
-		</dependency>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<scope>runtime</scope>
-			<optional>true</optional>
-		</dependency>
+    <modelVersion>4.0.0</modelVersion>
 
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-test</artifactId>
-    <scope>test</scope>
-</dependency>
+    <!-- Spring Boot Parent -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.4.12</version>
+        <relativePath/>
+    </parent>
+
+    <!-- Project coordinates -->
+    <groupId>com.example</groupId>
+    <artifactId>QuattroTech</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>QuattroTech</name>
+    <description>Spring Boot project - Online Shop with Full Test Coverage</description>
+
+    <!-- Properties -->
+    <properties>
+        <java.version>21</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        
+        <!-- Dependency Versions -->
+	    <testcontainers.version>1.21.4</testcontainers.version>
+        <selenium.version>4.39.0</selenium.version>
+	    <webdrivermanager.version>6.3.3</webdrivermanager.version>
+        <jacoco.version>0.8.12</jacoco.version>
+	    <pitest.version>1.17.0</pitest.version>
+        <pitest-junit5.version>1.2.3</pitest-junit5.version>
+
+        <!-- Test Control Properties -->
+        <skip.unit.tests>false</skip.unit.tests>
+        <skip.integration.tests>false</skip.integration.tests>
+        <skip.e2e.tests>true</skip.e2e.tests>
+        
+        <!-- JaCoCo Properties -->
+        <jacoco.output.directory>${project.build.directory}/jacoco</jacoco.output.directory>
+        <jacoco.output.file>${jacoco.output.directory}/jacoco.exec</jacoco.output.file>
+        
+        <!-- Coverage Thresholds -->
+        <jacoco.line.coverage>0.80</jacoco.line.coverage>
+        <jacoco.branch.coverage>0.75</jacoco.branch.coverage>
+        
+        <!-- Pitest Properties -->
+        <pitest.threads>4</pitest.threads>
+        <pitest.mutation.threshold>100</pitest.mutation.threshold>
+        <pitest.coverage.threshold>80</pitest.coverage.threshold>
+    </properties>
+
+    <!-- Dependencies -->
+    <dependencies>
+
+        <!-- Spring Boot Starters -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- Actuator -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!-- DevTools -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- WebJars -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>5.3.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>3.7.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>webjars-locator</artifactId>
+            <version>0.50</version>
+        </dependency>
+
+        <!-- Testing -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Testcontainers -->
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>mongodb</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- REST Assured -->
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Selenium -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-chrome-driver</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- WebDriverManager -->
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>${webdrivermanager.version}</version>
+            <scope>test</scope>
+        </dependency>
+        
+        
+        
+            <!-- docker compose  -->
+			<dependency>
+			    <groupId>org.springframework.boot</groupId>
+			    <artifactId>spring-boot-docker-compose</artifactId>
+			    <scope>runtime</scope>
+			    <optional>true</optional>
+			</dependency>
 
 
 
 
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-test-autoconfigure</artifactId>
-    <scope>test</scope>
-</dependency>
 
+    </dependencies>
 
-<!-- Selenium HtmlUnit driver for headless WebDriver tests -->
-<dependency>
-    <groupId>org.seleniumhq.selenium</groupId>
-    <artifactId>htmlunit-driver</artifactId>
-    <version>4.8.1.1</version>
-    <scope>test</scope>
-</dependency>
-
-
-<!-- Selenium support utilities (By, WebDriver, etc.) -->
-<dependency>
-    <groupId>org.seleniumhq.selenium</groupId>
-    <artifactId>selenium-support</artifactId>
-    <scope>test</scope>
-</dependency>
-
-
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-testcontainers</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.testcontainers</groupId>
-			<artifactId>testcontainers-junit-jupiter</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.testcontainers</groupId>
-			<artifactId>testcontainers-mongodb</artifactId>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
-
+    <!-- Dependency Management -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>testcontainers-bom</artifactId>
+                <version>${testcontainers.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+<!-- Build -->
 <build>
-
-
-
-    <testSourceDirectory>src/test/java</testSourceDirectory>
-
-
-
-
-
-
     <plugins>
-    
-    
-    
-    
-    
-    
-    
-<plugin>
-    <groupId>org.codehaus.mojo</groupId>
-    <artifactId>build-helper-maven-plugin</artifactId>
-    <executions>
-        <execution>
-            <id>add-integration-test-source</id>
-            <phase>generate-test-sources</phase>
-            <goals>
-                <goal>add-test-source</goal>
-            </goals>
-            <configuration>
-                <sources>
-                    <source>src/it/java</source>
-                </sources>
-            </configuration>
-        </execution>
-    </executions>
-</plugin>
 
-
-
-
-
+        <!-- Spring Boot Plugin -->
         <plugin>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-maven-plugin</artifactId>
         </plugin>
 
+        <!-- Add IT and E2E test sources -->
         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <configuration>
-                <includes>
-                    <include>**/*Test.java</include>
-                    <include>**/*Tests.java</include>
-                </includes>
-                <excludes>
-                    <exclude>**/*IT.java</exclude>
-                    <exclude>**/*E2E*.java</exclude>
-                </excludes>
-            </configuration>
-        </plugin>
-
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-failsafe-plugin</artifactId>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
             <executions>
                 <execution>
+                    <id>add-test-sources</id>
+                    <phase>generate-test-sources</phase>
                     <goals>
-                        <goal>integration-test</goal>
-                        <goal>verify</goal>
+                        <goal>add-test-source</goal>
                     </goals>
-            <configuration>
-                        <includes>
-                            <include>**/*IT.java</include>
-                        </includes>
+                    <configuration>
+                        <sources>
+                            <source>src/it/java</source>
+                            <source>src/e2e/java</source>
+                        </sources>
                     </configuration>
                 </execution>
             </executions>
         </plugin>
 
+        <!-- JaCoCo Plugin (Code Coverage for Unit Tests ONLY) -->
         <plugin>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
-            <version>0.8.11</version>
+            <version>${jacoco.version}</version>
             <executions>
+                <!-- Prepare agent for unit tests -->
                 <execution>
+                    <id>prepare-agent</id>
                     <goals>
                         <goal>prepare-agent</goal>
                     </goals>
+                    <configuration>
+                        <destFile>${jacoco.output.file}</destFile>
+                        <propertyName>surefireArgLine</propertyName>
+                        
+                        <!-- Exclude third-party libraries from instrumentation -->
+                        <excludes>
+                            <!-- HtmlUnit (causes MethodTooLargeException) -->
+                            <exclude>com/gargoylesoftware/**/*</exclude>
+                            <exclude>net/sourceforge/htmlunit/**/*</exclude>
+                            
+                            <!-- Spring Framework internals -->
+                            <exclude>org/springframework/**/*</exclude>
+                            
+                            <!-- Other libraries -->
+                            <exclude>org/hibernate/**/*</exclude>
+                            <exclude>org/mongodb/**/*</exclude>
+                            <exclude>org/apache/**/*</exclude>
+                            <exclude>com/fasterxml/**/*</exclude>
+                            <exclude>ch/qos/logback/**/*</exclude>
+                        </excludes>
+                    </configuration>
                 </execution>
+                
+                <!-- Generate report after unit tests -->
                 <execution>
                     <id>report</id>
                     <phase>test</phase>
                     <goals>
                         <goal>report</goal>
                     </goals>
+                    <configuration>
+                        <dataFile>${jacoco.output.file}</dataFile>
+                        <outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
+                        
+                        <excludes>
+                            <!-- Your application classes to exclude -->
+                            <exclude>**/QuattroTechApplication.class</exclude>
+                            <exclude>**/model/**/*.class</exclude>
+                            <exclude>**/repository/**/*.class</exclude>
+                            <exclude>**/*Configuration.class</exclude>
+                            <exclude>**/Test*.class</exclude>
+                            
+                            <!-- Third-party libraries -->
+                            <exclude>com/gargoylesoftware/**/*</exclude>
+                            <exclude>org/springframework/**/*</exclude>
+                        </excludes>
+                    </configuration>
+                </execution>
+
+                <!-- Enforce coverage thresholds -->
+                <execution>
+                    <id>check</id>
+                    <phase>test</phase>
+                    <goals>
+                        <goal>check</goal>
+                    </goals>
+                    <configuration>
+                        <dataFile>${jacoco.output.file}</dataFile>
+                        
+                        <excludes>
+                            <!-- Same exclusions as report -->
+                            <exclude>**/QuattroTechApplication.class</exclude>
+                            <exclude>**/model/**/*.class</exclude>
+                            <exclude>**/repository/**/*.class</exclude>
+                            <exclude>**/*Configuration.class</exclude>
+                            <exclude>**/Test*.class</exclude>
+                            <exclude>com/gargoylesoftware/**/*</exclude>
+                            <exclude>org/springframework/**/*</exclude>
+                        </excludes>
+                        
+                        <rules>
+                            <rule>
+                                <element>BUNDLE</element>
+                                <limits>
+                                    <limit>
+                                        <counter>LINE</counter>
+                                        <value>COVEREDRATIO</value>
+                                        <minimum>${jacoco.line.coverage}</minimum>
+                                    </limit>
+                                    <limit>
+                                        <counter>BRANCH</counter>
+                                        <value>COVEREDRATIO</value>
+                                        <minimum>${jacoco.branch.coverage}</minimum>
+                                    </limit>
+                                </limits>
+                            </rule>
+                        </rules>
+                    </configuration>
                 </execution>
             </executions>
         </plugin>
+
+        <!-- Surefire Plugin (Unit Tests ONLY - runs on "mvn test") -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+                <!-- Use JaCoCo agent for coverage -->
+                <argLine>${surefireArgLine}</argLine>
+                
+                <!-- Include only unit tests -->
+                <includes>
+                    <include>**/*Test.java</include>
+                </includes>
+                
+                <!-- Exclude IT and E2E tests -->
+                <excludes>
+                    <exclude>**/*IT.java</exclude>
+                    <exclude>**/*E2E.java</exclude>
+                </excludes>
+                
+                <!-- Skip control -->
+                <skipTests>${skip.unit.tests}</skipTests>
+            </configuration>
+        </plugin>
+
+        <!-- Failsafe Plugin (Integration Tests ONLY - runs on "mvn verify") -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <configuration>
+                <!-- Include only IT tests, NOT E2E -->
+                <includes>
+                    <include>**/*IT.java</include>
+                </includes>
+                
+                <!-- Exclude E2E tests (they run in separate profile) -->
+                <excludes>
+                    <exclude>**/*E2E.java</exclude>
+                </excludes>
+                
+                <!-- Skip control -->
+                <skipTests>${skip.integration.tests}</skipTests>
+                <skipITs>${skip.integration.tests}</skipITs>
+            </configuration>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>integration-test</goal>
+                        <goal>verify</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+
+        <!-- Pitest Plugin (Mutation Testing - ONLY via profile!) -->
+        <plugin>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-maven</artifactId>
+            <version>${pitest.version}</version>
+            <dependencies>
+                <!-- JUnit 5 support -->
+                <dependency>
+                    <groupId>org.pitest</groupId>
+                    <artifactId>pitest-junit5-plugin</artifactId>
+                    <version>${pitest-junit5.version}</version>
+                </dependency>
+            </dependencies>
+            <configuration>
+                <!-- Target only main source code -->
+                <targetClasses>
+                    <param>com.example.QuattroTech.shop.*</param>
+                </targetClasses>
+                
+                <!-- Target only unit tests -->
+                <targetTests>
+                    <param>com.example.QuattroTech.shop.*Test</param>
+                </targetTests>
+                
+                <!-- Exclude specific classes from mutation -->
+                <excludedClasses>
+                    <param>com.example.QuattroTech.shop.QuattroTechApplication</param>
+                    <param>com.example.QuattroTech.shop.model.*</param>
+                </excludedClasses>
+                
+                <!-- Report settings -->
+                <outputFormats>
+                    <outputFormat>HTML</outputFormat>
+                    <outputFormat>XML</outputFormat>
+                </outputFormats>
+                <timestampedReports>false</timestampedReports>
+                
+                <!-- Performance settings -->
+                <threads>${pitest.threads}</threads>
+                <timeoutFactor>2.0</timeoutFactor>
+                <timeoutConstant>5000</timeoutConstant>
+                
+                <!-- Mutation operators (comprehensive) -->
+                <mutators>
+                    <mutator>DEFAULTS</mutator>
+                </mutators>
+                
+                <!-- Coverage thresholds (100% mutation kill required!) -->
+                <mutationThreshold>${pitest.mutation.threshold}</mutationThreshold>
+                <coverageThreshold>${pitest.coverage.threshold}</coverageThreshold>
+                
+                <!-- Fail build if thresholds not met -->
+                <failWhenNoMutations>false</failWhenNoMutations>
+                
+                <!-- Additional features -->
+                <features>
+                    <feature>+auto_threads</feature>
+                </features>
+                
+                <!-- Verbose output -->
+                <verbose>false</verbose>
+            </configuration>
+        </plugin>
+
     </plugins>
 </build>
 
+<!-- Maven Profiles -->
+<profiles>
+    
+    <!-- Profile 1: Run E2E Tests -->
+    <profile>
+        <id>e2e</id>
+        <activation>
+            <activeByDefault>false</activeByDefault>
+        </activation>
+        <properties>
+            <skip.unit.tests>true</skip.unit.tests>
+            <skip.integration.tests>true</skip.integration.tests>
+            <skip.e2e.tests>false</skip.e2e.tests>
+        </properties>
+        <build>
+            <plugins>
+                <!-- Failsafe configured for E2E tests only -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <configuration>
+                        <includes>
+                            <include>**/*E2E.java</include>
+                        </includes>
+                        <excludes>
+                            <exclude>**/*IT.java</exclude>
+                            <exclude>**/*Test.java</exclude>
+                        </excludes>
+                        <skipTests>${skip.e2e.tests}</skipTests>
+                        <skipITs>${skip.e2e.tests}</skipITs>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>integration-test</goal>
+                                <goal>verify</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </build>
+    </profile>
+    
+    <!-- Profile 2: Run ALL Tests (Unit + IT + E2E) -->
+    <profile>
+        <id>all-tests</id>
+        <activation>
+            <activeByDefault>false</activeByDefault>
+        </activation>
+        <properties>
+            <skip.unit.tests>false</skip.unit.tests>
+            <skip.integration.tests>false</skip.integration.tests>
+            <skip.e2e.tests>false</skip.e2e.tests>
+        </properties>
+        <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <configuration>
+                        <includes>
+                            <include>**/*IT.java</include>
+                            <include>**/*E2E.java</include>
+                        </includes>
+                        <skipTests>false</skipTests>
+                        <skipITs>false</skipITs>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>integration-test</goal>
+                                <goal>verify</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </build>
+    </profile>
+    
+    <!-- Profile 3: Skip Tests (for fast builds) -->
+    <profile>
+        <id>skip-tests</id>
+        <activation>
+            <activeByDefault>false</activeByDefault>
+        </activation>
+        <properties>
+            <skip.unit.tests>true</skip.unit.tests>
+            <skip.integration.tests>true</skip.integration.tests>
+            <skip.e2e.tests>true</skip.e2e.tests>
+            <maven.test.skip>true</maven.test.skip>
+        </properties>
+    </profile>
+    
+    <!-- Profile 4: Mutation Testing (NO SURVIVORS!) -->
+    <profile>
+        <id>mutation</id>
+        <activation>
+            <activeByDefault>false</activeByDefault>
+        </activation>
+        <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.pitest</groupId>
+                    <artifactId>pitest-maven</artifactId>
+                    <!-- Inherits all configuration from main plugin definition -->
+                    <executions>
+                        <execution>
+                            <id>run-pitest</id>
+                            <phase>test</phase>
+                            <goals>
+                                <goal>mutationCoverage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </build>
+    </profile>
+
+</profiles>
 </project>
