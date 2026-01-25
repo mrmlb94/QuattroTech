@@ -42,7 +42,9 @@ class ShopItemWebE2E {
     private WebDriver driver;
     private WebDriverWait wait;
 
+    
     @Container
+    @SuppressWarnings("resource")
     static MongoDBContainer mongoContainer = new MongoDBContainer("mongo:6.0")
             .withExposedPorts(27017);
 

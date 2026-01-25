@@ -4,6 +4,7 @@ import com.example.QuattroTech.shop.model.ShopItem;
 import com.example.QuattroTech.shop.repository.ShopItemRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +32,13 @@ class ShopItemRestE2E {
     @LocalServerPort
     private int port;
 
+    
     @Container
+    @SuppressWarnings("resource")
     static MongoDBContainer mongoContainer = new MongoDBContainer("mongo:6.0")
             .withExposedPorts(27017);
+
+    
 
     @DynamicPropertySource
     static void setProperties(DynamicPropertyRegistry registry) {

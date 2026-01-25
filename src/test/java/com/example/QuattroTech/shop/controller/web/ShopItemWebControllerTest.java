@@ -164,10 +164,10 @@ class ShopItemWebControllerTest {
 
         // When & Then
         mockMvc.perform(post("/items/save")
-                        .param("name", "Mouse")
-                        .param("description", "Wireless mouse")
-                        .param("price", "25.00")
-                        .param("quantity", "10"))
+                        .param("name", newItem.getName())
+                        .param("description", newItem.getDescription())
+                        .param("price", newItem.getPrice().toString())
+                        .param("quantity", String.valueOf(newItem.getQuantity())))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/items"))
                 .andExpect(flash().attribute("success", "Item created successfully!"));

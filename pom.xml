@@ -51,7 +51,23 @@
         <pitest.threads>4</pitest.threads>
         <pitest.mutation.threshold>100</pitest.mutation.threshold>
         <pitest.coverage.threshold>80</pitest.coverage.threshold>
-    </properties>
+        
+		<!-- For SonarQube -->
+		<sonar.organization>mrmlb94</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.projectKey>mrmlb94_QuattroTech</sonar.projectKey>
+		<sonar.coverage.jacoco.xmlReportPaths>${project.reporting.outputDirectory}/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+		<sonar.junit.reportPaths>${project.build.directory}/surefire-reports,${project.build.directory}/failsafe-reports</sonar.junit.reportPaths>
+		<sonar.sources>pom.xml,${project.build.sourceDirectory},${basedir}/src/main/resources</sonar.sources>
+		<sonar.tests>${project.build.testSourceDirectory},${basedir}/src/it/java,${basedir}/src/e2e/java</sonar.tests>
+		<sonar.coverage.exclusions>**/*Application.*,**/model/**</sonar.coverage.exclusions>
+		<sonar.issue.ignore.multicriteria>e1,e2</sonar.issue.ignore.multicriteria>
+		<sonar.issue.ignore.multicriteria.e1.ruleKey>java:S4684</sonar.issue.ignore.multicriteria.e1.ruleKey>
+		<sonar.issue.ignore.multicriteria.e1.resourceKey>**/*Controller.java</sonar.issue.ignore.multicriteria.e1.resourceKey>
+		<sonar.issue.ignore.multicriteria.e2.ruleKey>java:S1120</sonar.issue.ignore.multicriteria.e2.ruleKey>
+		<sonar.issue.ignore.multicriteria.e2.resourceKey>**/*.java</sonar.issue.ignore.multicriteria.e2.resourceKey>
+		
+	</properties>
 
     <!-- Dependencies -->
     <dependencies>
